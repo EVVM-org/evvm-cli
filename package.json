@@ -42,11 +42,11 @@
     "dotenv": "^16.6.1",
     "execa": "^8.0.1",
     "prompts": "^2.4.2",
-    "viem": "^2.47.6"
+    "viem": "^2.54.1"
   },
   "devDependencies": {
-    "@types/node": "^20.19.37",
-    "@types/prompts": "^2.9.3",
+    "@types/node": "^20.19.43",
+    "@types/prompts": "^2.4.9",
     "typescript": "^5.9.3"
   }
 }
