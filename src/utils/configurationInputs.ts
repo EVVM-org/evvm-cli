@@ -103,7 +103,7 @@ export async function configurationBasic() {
   await writeBaseInputsFile(addresses, evvmMetadata);
 
   confirmation(
-    `${colors.reset}Input configuration saved to ${colors.darkGray}./input/BaseInputs.sol${colors.reset}`
+    `${colors.reset}Input configuration saved to ${colors.darkGray}./lib/evvm/testnet/input/BaseInputs.sol${colors.reset}`
   );
 }
 
@@ -229,7 +229,7 @@ export async function configurationCrossChain(): Promise<{
   await writeCrossChainInputsFile(crossChainInputs);
 
   confirmation(
-    `${colors.reset}Cross-chain input configuration saved to ${colors.darkGray}./input/CrossChainInputs.sol${colors.reset}`
+    `${colors.reset}Cross-chain input configuration saved to ${colors.darkGray}./lib/evvm/testnet/input/CrossChainInputs.sol${colors.reset}`
   );
 
   return {
@@ -254,7 +254,7 @@ export async function writeBaseInputsFile(
   addresses: BaseInputAddresses,
   evvmMetadata: EvvmMetadata
 ) {
-  const inputDir = "./input";
+  const inputDir = "./lib/evvm/testnet/input";
   const inputFile = `${inputDir}/BaseInputs.sol`;
 
   if (
@@ -307,7 +307,7 @@ abstract contract BaseInputs {
 export async function writeCrossChainInputsFile(
   crossChainInputs: CrossChainInputs
 ) {
-  const inputDir = "./input";
+  const inputDir = "./lib/evvm/testnet/input";
   const inputFile = `${inputDir}/CrossChainInputs.sol`;
 
   await checkDirectoryPath(inputDir);

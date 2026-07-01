@@ -73,6 +73,8 @@ export async function installDependencies() {
   await $`git submodule update --remote --merge`;
   sectionSubtitle("Installing EVVM CLI Dependencies");
   await $`bun install`;
+  sectionSubtitle("Installing EVVM Contracts Dependencies");
+  await $`bun install`.cwd("lib/evvm/testnet");
   sectionSubtitle("Installing EVVM Foundry Dependencies");
   await $`forge install`.cwd("lib/evvm/testnet");
   console.log();
