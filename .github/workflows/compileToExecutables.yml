@@ -1,0 +1,117 @@
+name: Compile to Executables
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+    name: Build Linux Binaries
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build Linux x64
+        run: bun build cli/index.ts --compile --outfile .executables/evvm-linux-x64
+
+      - name: Build Linux ARM64
+        run: bun build cli/index.ts --compile --outfile .executables/evvm-linux-arm64
+
+      - name: Build Linux x64 musl
+        run: bun build cli/index.ts --compile --outfile .executables/evvm-linux-x64-musl
+
+      - name: Build Linux ARM64 musl
+        run: bun build cli/index.ts --compile --outfile .executables/evvm-linux-arm64-musl
+
+      - name: Make binaries executable
+        run: chmod +x .executables/evvm-linux-*
+
+      - name: Verify binaries
+        run: |
+          echo "Verifying Linux binaries..."
+          file .executables/evvm-linux-*
+          ls -lh .executables/
+
+      - name: Upload Linux binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-binaries
+          path: .executables/evvm-linux-*
+          if-no-files-found: error
+          include-hidden-files: true
+
+      - name: Make a commit with the compiled binaries
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .executables/
+          git commit -m "CICD: Add linux compiled binaries" || echo "No changes to commit"
+          git push origin main || echo "No changes to push"
+
+
+  build-macos:
+    name: Build macOS Binaries
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build macOS x64 (Intel)
+        run: bun build cli/index.ts --compile --outfile .executables/evvm-darwin-x64
+
+      - name: Build macOS ARM64 (Apple Silicon)
+        run: bun build cli/index.ts --compile --outfile .executables/evvm-darwin-arm64
+
+      - name: Verify binaries
+        run: |
+          echo "Verifying macOS binaries..."
+          file .executables/evvm-darwin-*
+          ls -lh .executables/
+
+      - name: Make binaries executable
+        run: chmod +x .executables/evvm-darwin-*
+
+      - name: Upload macOS binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-binaries
+          path: .executables/evvm-darwin-*
+          if-no-files-found: error
+          include-hidden-files: true
+      - name: Make a commit with the compiled binaries
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .executables/
+          git commit -m "CICD: Add macOS compiled binaries" || echo "No changes to commit"
+          git push origin main || echo "No changes to push"
+          
