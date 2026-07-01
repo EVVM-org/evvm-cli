@@ -30,16 +30,16 @@ jobs:
         run: bun install
 
       - name: Build Linux x64
-        run: bun build cli/index.ts --compile --outfile .executables/evvm-linux-x64
+        run: bun build src/index.ts --compile --outfile .executables/evvm-linux-x64
 
       - name: Build Linux ARM64
-        run: bun build cli/index.ts --compile --outfile .executables/evvm-linux-arm64
+        run: bun build src/index.ts --compile --outfile .executables/evvm-linux-arm64
 
       - name: Build Linux x64 musl
-        run: bun build cli/index.ts --compile --outfile .executables/evvm-linux-x64-musl
+        run: bun build src/index.ts --compile --outfile .executables/evvm-linux-x64-musl
 
       - name: Build Linux ARM64 musl
-        run: bun build cli/index.ts --compile --outfile .executables/evvm-linux-arm64-musl
+        run: bun build src/index.ts --compile --outfile .executables/evvm-linux-arm64-musl
 
       - name: Make binaries executable
         run: chmod +x .executables/evvm-linux-*
@@ -86,10 +86,10 @@ jobs:
         run: bun install
 
       - name: Build macOS x64 (Intel)
-        run: bun build cli/index.ts --compile --outfile .executables/evvm-darwin-x64
+        run: bun build src/index.ts --compile --outfile .executables/evvm-darwin-x64
 
       - name: Build macOS ARM64 (Apple Silicon)
-        run: bun build cli/index.ts --compile --outfile .executables/evvm-darwin-arm64
+        run: bun build src/index.ts --compile --outfile .executables/evvm-darwin-arm64
 
       - name: Verify binaries
         run: |
@@ -114,4 +114,4 @@ jobs:
           git add .executables/
           git commit -m "CICD: Add macOS compiled binaries" || echo "No changes to commit"
           git push origin main || echo "No changes to push"
-          
+
