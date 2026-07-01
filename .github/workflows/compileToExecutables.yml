@@ -15,11 +15,14 @@ jobs:
     name: Build Linux Binaries
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
@@ -62,20 +65,26 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           git add .executables/
           git commit -m "CICD: Add linux compiled binaries" || echo "No changes to commit"
+          git pull --rebase origin main || true
           git push origin main || echo "No changes to push"
 
 
   build-macos:
     name: Build macOS Binaries
     runs-on: macos-latest
+    needs: build-linux
     permissions:
-      contents: read
+      contents: write
       id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
@@ -111,7 +120,9 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           git add .executables/
           git commit -m "CICD: Add macOS compiled binaries" || echo "No changes to commit"
+          git pull --rebase origin main || true
           git push origin main || echo "No changes to push"
 
