@@ -45,6 +45,14 @@ lib/solidity-bytes-utils/
 lib/v3-core/
 lib/v3-periphery/
 
+# Exclude most of lib/evvm except contracts
+lib/evvm/testnet/broadcast/
+lib/evvm/testnet/cache/
+lib/evvm/testnet/out/
+lib/evvm/testnet/test/
+lib/evvm/testnet/script/
+lib/evvm/testnet/lib/
+
 # Input configuration files
 input/
 
@@ -54,5 +62,7 @@ wake.toml
 # TypeScript example
 package-ts.json.example
 
-# Source directory (since we copy from src/ to root during packaging)
-src/
+# Executables and wrapper scripts
+.executables/
+evvm
+evvm.bat
