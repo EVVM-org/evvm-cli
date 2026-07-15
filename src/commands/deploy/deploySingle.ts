@@ -14,6 +14,8 @@ import {
   showDeployContractsAndFindEvvm,
   verifyFoundryInstalledAndAccountSetup,
 } from "../../utils/foundry";
+import { areContractsInstalled } from "../../utils/git";
+import { installDependencies } from "../developer";
 import {
   chainIdNotSupported,
   confirmation,
@@ -67,6 +69,15 @@ export async function deploySingle(args: string[], options: any) {
   seccionTitle("Deploy EVVM Contracts");
 
   await verifyFoundryInstalledAndAccountSetup([walletName]);
+
+  const contractsInstalled = await areContractsInstalled();
+  if (!contractsInstalled) {
+    warning(
+      "EVVM contracts not found",
+      `${colors.darkGray}Installing contracts automatically...${colors.reset}`
+    );
+    await installDependencies();
+  }
 
   if (skipInputConfig) {
     warning(

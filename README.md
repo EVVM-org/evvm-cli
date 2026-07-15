@@ -29,18 +29,13 @@ Run the CLI directly without cloning the repository:
 
 ```bash
 # Using Bun (recommended)
-bunx @evvm/cli install
 bunx @evvm/cli deploy
 
 # Using npm/npx
-npx @evvm/cli install
 npx @evvm/cli deploy
 ```
 
-**Note:** The CLI will automatically:
-- Check if Foundry and Git are installed
-- Clone the EVVM contracts repository if needed
-- Install all dependencies (bun, forge)
+**Note:** You still need Foundry and Git installed on your system.
 
 ### Option B: Clone & install (For development)
 

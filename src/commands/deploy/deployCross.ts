@@ -22,6 +22,8 @@ import {
   showAllCrossChainDeployedContracts,
   forgeScript,
 } from "../../utils/foundry";
+import { areContractsInstalled } from "../../utils/git";
+import { installDependencies } from "../developer";
 import {
   configurationBasic,
   configurationCrossChain,
@@ -84,6 +86,15 @@ export async function deployCross(args: string[], options: any) {
     walletNameHost,
     walletNameExternal,
   ]);
+
+  const contractsInstalled = await areContractsInstalled();
+  if (!contractsInstalled) {
+    warning(
+      "EVVM contracts not found",
+      `${colors.darkGray}Installing contracts automatically...${colors.reset}`
+    );
+    await installDependencies();
+  }
 
   if (skipInputConfig) {
     warning(

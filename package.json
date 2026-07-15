@@ -2,7 +2,7 @@
   "name": "@evvm/cli",
   "version": "1.0.0",
   "type": "module",
-  "description": "EVVM CLI - Command-line tool for deploying and managing EVVM instances on testnets",
+  "description": "EVVM CLI - Command-line tool for deploying and managing EVVM instances",
   "keywords": [
     "evvm",
     "ethereum",
@@ -24,10 +24,10 @@
   "bugs": {
     "url": "https://github.com/EVVM-org/evvm-cli/issues"
   },
+  "bin": {
+    "evvm": "src/index.ts"
+  },
   "scripts": {
-    "build": "bun run copy-files",
-    "copy-files": "cp -r lib/evvm/testnet/src/contracts . && cp -r lib/evvm/testnet/src/interfaces . && cp -r lib/evvm/testnet/src/library .",
-    "clean": "rm -rf contracts interfaces library",
     "evvm": "bun run src/index.ts",
     "buildCli": "bun build src/index.ts --compile --outfile evvm",
     "build-all": "bun run build-linux && bun run build-windows && bun run build-macos",
