@@ -23,6 +23,22 @@ Before deploying with the CLI, ensure you have the following installed:
 
 ## Quick start (2 min)
 
+### Option A: Using bunx/npx (No clone required)
+
+Run the CLI directly without cloning the repository:
+
+```bash
+# Using Bun (recommended)
+bunx @evvm/cli deploy
+
+# Using npm/npx
+npx @evvm/cli deploy
+```
+
+**Note:** You still need Foundry and Git installed on your system.
+
+### Option B: Clone & install (For development)
+
 1. Clone & install
 
 ```bash
