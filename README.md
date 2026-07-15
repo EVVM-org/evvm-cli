@@ -1,6 +1,6 @@
 # EVVM CLI
 
-![Version](https://img.shields.io/badge/version-3.1.2%20%22Wraith%22-red.svg)
+![Version](https://img.shields.io/badge/version-1.0.0-red.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?logo=typescript)
 ![Bun](https://img.shields.io/badge/Runtime-Bun-000000?logo=bun)
 [![license](https://img.shields.io/badge/license-EVVM--NONCOMMERCIAL--1.0-blue.svg)](LICENSE)
@@ -35,7 +35,10 @@ bunx @evvm/cli deploy
 npx @evvm/cli deploy
 ```
 
-**Note:** You still need Foundry and Git installed on your system.
+**Note:** The CLI will automatically:
+- Check if Foundry and Git are installed
+- Clone the EVVM contracts repository if needed
+- Install all dependencies (bun, forge)
 
 ### Option B: Clone & install (For development)
 
