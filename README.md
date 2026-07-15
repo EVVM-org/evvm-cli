@@ -23,6 +23,27 @@ Before deploying with the CLI, ensure you have the following installed:
 
 ## Quick start (2 min)
 
+### Option A: Using bunx/npx (No clone required)
+
+Run the CLI directly without cloning the repository:
+
+```bash
+# Using Bun (recommended)
+bunx @evvm/cli install
+bunx @evvm/cli deploy
+
+# Using npm/npx
+npx @evvm/cli install
+npx @evvm/cli deploy
+```
+
+**Note:** The CLI will automatically:
+- Check if Foundry and Git are installed
+- Clone the EVVM contracts repository if needed
+- Install all dependencies (bun, forge)
+
+### Option B: Clone & install (For development)
+
 1. Clone & install
 
 ```bash
@@ -99,6 +120,13 @@ Quick Start: https://www.evvm.info/docs/QuickStart
 
 ## Available Commands
 
+**Using bunx/npx:**
+```bash
+bunx @evvm/cli <command> [options]
+# or
+npx @evvm/cli <command> [options]
+```
+
 **Deployment & Registration:**
 
 - `evvm deploy` - Deploy EVVM (single or cross-chain)
@@ -127,6 +155,9 @@ Quick Start: https://www.evvm.info/docs/QuickStart
 - **RPC timeouts**: CLI automatically tries fallback RPCs; set `RPC_URL` in `.env` to a reliable endpoint.
 - **Wallet not found**: import with `cast wallet import <name> --interactive`.
 - **Bun missing**: install Bun (`curl -fsSL https://bun.sh/install | bash`).
+- **Git missing**: install Git from [git-scm.com](https://git-scm.com/downloads).
+- **Foundry missing**: install Foundry from [getfoundry.sh](https://getfoundry.sh/introduction/installation/).
+- **Contracts not found**: when using `bunx`/`npx`, the CLI automatically clones the contracts repository and installs dependencies on first run.
 - **Native binary fails (exit 126)**: if you see "cannot execute binary file" the wrapper will now try running the CLI via `bun run src/index.ts` automatically when Bun is available. This works as a fallback until correct platform-specific binaries are built.
 - **Tests**: run `./evvm developer --runTest` (Linux/Mac) or `evvm.bat developer --runTest` (Windows).
 - **Script not executable (Linux/Mac)**: run `chmod +x ./evvm` and ensure `.executables/` binaries have execute permissions.
