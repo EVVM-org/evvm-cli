@@ -1,0 +1,77 @@
+name: Publish to npm
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write  # Required for OIDC
+  contents: write  # Required for version bump commit
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.head_commit.message, 'MAJOR:') || startsWith(github.event.head_commit.message, 'MINOR:') || startsWith(github.event.head_commit.message, 'PATCH:')
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      
+      - name: Determine version bump type
+        id: bump
+        run: |
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          echo "Commit message: $COMMIT_MSG"
+          
+          if [[ "$COMMIT_MSG" == MAJOR:* ]]; then
+            echo "type=major" >> $GITHUB_OUTPUT
+            echo "Bump type: MAJOR"
+          elif [[ "$COMMIT_MSG" == MINOR:* ]]; then
+            echo "type=minor" >> $GITHUB_OUTPUT
+            echo "Bump type: MINOR"
+          elif [[ "$COMMIT_MSG" == PATCH:* ]]; then
+            echo "type=patch" >> $GITHUB_OUTPUT
+            echo "Bump type: PATCH"
+          fi
+      
+      - name: Install dependencies
+        run: bun install
+      
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      
+      - name: Bump version
+        run: |
+          npm version ${{ steps.bump.outputs.type }} --no-git-tag-version
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "New version: $NEW_VERSION"
+      
+      - name: Commit and push version bump
+        run: |
+          git add package.json
+          git commit -m "chore: bump version to $(node -p "require('./package.json').version") [skip ci]"
+          git push
+      
+      - name: Authenticate with npm using OIDC
+        run: |
+          npm config set registry https://registry.npmjs.org/
+          npm config set //registry.npmjs.org/:_authToken=""
+      
+      - name: Publish to npm
+        run: npm publish --access public
