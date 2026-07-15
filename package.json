@@ -1,6 +1,6 @@
 {
   "name": "@evvm/cli",
-  "version": "3.1.2",
+  "version": "1.0.0",
   "type": "module",
   "description": "EVVM CLI - Command-line tool for deploying and managing EVVM instances on testnets",
   "keywords": [
@@ -14,7 +14,7 @@
     "blockchain",
     "deploy"
   ],
-  "author": "EVVM Organization",
+  "author": "Mate labs",
   "license": "EVVM-NONCOMMERCIAL-1.0",
   "repository": {
     "type": "git",
